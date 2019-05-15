@@ -1,14 +1,11 @@
 <template>
 <div>
   <div>
-    {{msg}}
-  </div>
-  <div>
     <span>Input permission code: </span>
     <input v-model="inputCode" @keyup.enter="search" autofocus/>
     <button @click='search'>Search</button>
   </div>
-  <div>{{result}}</div>
+  <div id="result">{{result}}</div>
 </div>
 </template>
 
@@ -18,20 +15,19 @@ import { mockPermissions } from '../../dummies/mockPermissions';
 import { Permission } from '../types/Permissions'
 
 @Component
-export default class Page extends Vue {
-  private inputCode = "";
+export default class Index extends Vue {
+  private inputCode = ""
   private permissionsRoot: Permission = {
     code: '',
     label: 'root',
-    children: mockPermissions
+    children: mockPermissions,
   }
-  private msg = "Hello"
   private result = null
 
-  recursiveSearch(code: string, index: number, permissions: Permission[]) {
+  recursiveSearch(code: string, permissions: Permission[]) {
     for(let permission of permissions) {
       if(permission.code === code) return permission;
-      const match = this.recursiveSearch(code, 0, permission.children)
+      const match = this.recursiveSearch(code, permission.children)
       if(match) return match
     }
     return null
@@ -39,7 +35,7 @@ export default class Page extends Vue {
 
   search() {
     if (!this.inputCode) return;
-    const match = this.recursiveSearch(this.inputCode, 0, this.permissionsRoot.children);
+    const match = this.recursiveSearch(this.inputCode, this.permissionsRoot.children);
     this.result = match ? match.label : 'No Result';
   }
 }

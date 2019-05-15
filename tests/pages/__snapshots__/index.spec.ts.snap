@@ -2,8 +2,18 @@
 
 exports[`index spec should render proper 1`] = `
 <div>
-  
-  Hello
+  <div>
+    <span>
+      Input permission code:
+    </span>
 
+    <input
+      autofocus="autofocus"
+    />
+
+    <button>
+      Search
+    </button>
+  </div>
 </div>
 `;
