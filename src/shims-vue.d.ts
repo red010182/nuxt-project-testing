@@ -13,5 +13,6 @@ declare module "vue/types/vue" {
       [key: string]: HTMLInputElement;
     };
     $emit: (event: string, ...args) => void;
+    $bus: Vue;
   }
 }

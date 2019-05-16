@@ -6,21 +6,31 @@
     <button @click='search'>Search</button>
   </div>
   <div id="result">{{result}}</div>
+
+  <Tree :permission='permission'></Tree>
 </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { mockPermissions } from '../../dummies/mockPermissions';
-import { Permission } from '../types/Permissions'
+import { Permission, PermissionNode, CheckStatus } from '../types/Permissions'
+import Tree from '../components/tree.vue';
+import { checkServerIdentity } from 'tls';
 
-@Component
+@Component({
+  name: 'Index',
+  components: {
+    Tree
+  }
+})
 export default class Index extends Vue {
   private inputCode = ""
-  private permissionsRoot: Permission = {
+  private permission: Permission = {
     code: '',
     label: 'root',
     children: mockPermissions,
+    check: false
   }
   private result = null
 
@@ -35,11 +45,12 @@ export default class Index extends Vue {
 
   search() {
     if (!this.inputCode) return;
-    const match = this.recursiveSearch(this.inputCode, this.permissionsRoot.children);
+    const match = this.recursiveSearch(this.inputCode, this.permission.children);
     this.result = match ? match.label : 'No Result';
+  }
+
+  created() {
+    // (window as any).permission = this.permission
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

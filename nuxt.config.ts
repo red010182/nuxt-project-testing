@@ -29,7 +29,7 @@ const config: NuxtConfiguration = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: ['./plugins/bus.ts'],
 
   /*
   ** Nuxt.js modules
